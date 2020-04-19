@@ -91,6 +91,7 @@ void WHILE() {
 
 // IF = if (E) STMT (else STMT)? 這個else是可選的
 void IF() {
+  //ifBegin讀起開始 ifEnd讀起結束
   int ifBegin = nextLabel();//需要產生標記
   int ifEnd = nextLabel();
   emit("(L%d)\n", ifBegin);
@@ -100,14 +101,16 @@ void IF() {
   emit("if not T%d goto L%d\n", e, ifEnd);//需要產生中間碼
   skip(")");//再取一個)
   STMT();//取一個STMT
-  emit("(L%d)\n", ifBegin);
+  
   //如果後面是一個else 就繼續比對else
+  emit("(L%d)\n", ifBegin);
   if(isNext("else")){
     skip("else");//取else字
     STMT();
-     emit("goto L%d\n", ifBegin);
-     emit("(L%d)\n", ifEnd);
+   
+    
   }
+   emit("(L%d)\n", ifEnd);
 }
 
 // STMT = WHILE | IF | BLOCK | ASSIGN
