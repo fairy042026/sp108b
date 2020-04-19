@@ -76,7 +76,7 @@ void ASSIGN() {
 
 // WHILE = while (E) STMT
 void WHILE() {
-  int whileBegin = nextLabel();
+  int whileBegin = nextLabel();//需要產生標記
   int whileEnd = nextLabel();
   emit("(L%d)\n", whileBegin);
   skip("while");
@@ -91,14 +91,19 @@ void WHILE() {
 
 // IF = if (E) STMT (else STMT)? 這個else是可選的
 void IF() {
-  skip("if");
-  skip("(");
+  skip("if");//取一個if字
+  skip("(");//取一個(
   int e = E();
-  skip(")");
-  STMT();
+  emit("if not T%d goto L%d\n", e, whileEnd);//需要產生中間碼
+  skip(")");//再取一個)
+  STMT();//取一個STMT
+
+  //如果後面是一個else 就繼續比對else
   if(isNext("else")){
-    skip("else");
+    skip("else");//取else字
     STMT();
+     emit("goto L%d\n", whileBegin);
+     emit("(L%d)\n", whileEnd);
   }
 }
 
