@@ -5,6 +5,7 @@ int E();
 void STMT();
 void IF();
 void BLOCK();
+void WHILE();
 
 int tempIdx = 0, labelIdx = 0;
 
@@ -76,7 +77,7 @@ void ASSIGN() {
 
 // WHILE = while (E) STMT
 void WHILE() {
-  int whileBegin = nextLabel();//需要產生標記
+  int whileBegin = nextLabel();
   int whileEnd = nextLabel();
   emit("(L%d)\n", whileBegin);
   skip("while");
@@ -94,15 +95,16 @@ void IF() {
   //ifBegin讀起開始 ifEnd讀起結束
   int ifBegin = nextLabel();//需要產生標記
   int ifEnd = nextLabel();
-  emit("(L%d)\n", ifBegin);
+  //emit("(L%d)\n", ifBegin);
   skip("if");//取一個if字
   skip("(");//取一個(
   int e = E();
-  emit("if not T%d goto L%d\n", e, ifEnd);//需要產生中間碼
+  emit("if not T%d goto L%d\n", e, ifBegin);//需要產生中間碼
   skip(")");//再取一個)
   STMT();//取一個STMT
   
   //如果後面是一個else 就繼續比對else
+  emit("goto L%d\n", ifEnd);
   emit("(L%d)\n", ifBegin);
   if(isNext("else")){
     skip("else");//取else字
@@ -113,12 +115,12 @@ void IF() {
    emit("(L%d)\n", ifEnd);
 }
 
-// STMT = WHILE | IF | BLOCK | ASSIGN
+// STMT = IF | WHILE | BLOCK | ASSIGN
 void STMT() {
   if (isNext("while"))
-    WHILE();
+     WHILE();
   else if (isNext("if"))
-    IF();
+     IF();
   else if (isNext("{"))
     BLOCK();
   else
