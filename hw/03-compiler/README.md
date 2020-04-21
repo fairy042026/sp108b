@@ -36,15 +36,18 @@ else
 
 
 ## 執行結果
-
-
-
 ========== lex ==============
+
 token=a
+
 token==
+
 token=3
+
 token=;
+
 token=b
+
 token==
 token=5
 token=;
