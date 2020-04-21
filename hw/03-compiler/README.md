@@ -29,7 +29,9 @@ else
 
 ## 執行方法
 1.在compiler.c點右鍵-open in terminal
+
 2.先執行mingw32-make，不然可能會出現上述問題
+
 3.執行./compiler.c test/sum.c(sum.c是放置測試範例的檔案，存在test資料夾裡)
 
 
