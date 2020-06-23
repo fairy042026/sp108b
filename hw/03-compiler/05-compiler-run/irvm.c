@@ -57,7 +57,7 @@ int irExec(int i) {
     } else trace(" -- fail\n");
   } else if (eq(op, "ifnot-goto")) {
     int cond = t[p->t];
-    trace("ifnot t%d (%d) ", p->t, cond);
+    trace("if not t%d (%d) ", p->t, cond);
     if (!cond) {
       pc = L[p->label];
       trace("goto L%d (%d)\n", p->label, L[p->label]);
@@ -76,4 +76,3 @@ void irRun() {
     pc = irExec(pc);
   }
 }
-
