@@ -99,11 +99,13 @@ void IF() {
   skip("if");//取一個if字
   skip("(");//取一個(
   int e = E();
+  //如果運算的結果符合E()就不用跳 不符合就要跳(if not T%d...)
   emit("if not T%d goto L%d\n", e, ifBegin);//需要產生中間碼
   skip(")");//再取一個)
   STMT();//取一個STMT
   
   //如果後面是一個else 就繼續比對else
+  //if結束但else還沒開始的地方 這裡要跳到結尾 否則會連else一起做(if和else的結果不可能同時出現)if的區塊完成就跳到最後
   emit("goto L%d\n", ifEnd);
   emit("(L%d)\n", ifBegin);
   if(isNext("else")){
