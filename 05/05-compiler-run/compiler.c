@@ -107,6 +107,25 @@ void ASSIGN(char *id) {
   // emit("%s = t%d\n", id, e);
 }
 
+void IF() {
+  //ifBegin讀起開始 ifEnd讀起結束
+  int ifBegin = nextLabel();//需要產生標記
+  int ifEnd = nextLabel();
+  skip("if");
+  skip("(");
+  int e = E();
+  irEmitIfNotGoto(e, ifBegin);
+  skip(")");
+  STMT();
+  irEmitGoto(ifEnd);
+  irEmitLabel(ifBegin);
+  if (isNext("else")) {
+    skip("else");
+    STMT();
+  }
+  irEmitLabel(ifEnd);
+}
+
 // while (E) STMT
 void WHILE() {
   int whileBegin = nextLabel();
