@@ -7,7 +7,8 @@
 int (*power)(int a, int b);
 
 
-int main() {
+int main() 
+{
   power = (int (*)(int, int))powcode;
   printf("pow(7, 2)=%d\n", power(7,2));
 
