@@ -108,10 +108,11 @@ void ASSIGN(char *id) {
 }
 
 void IF() {
-  int ifBegin = nextLabel();
+  //ifBegin讀起開始 ifEnd讀起結束
+  int ifBegin = nextLabel();//需要產生標記
   int ifEnd = nextLabel();
-  skip("if");
-  skip("(");
+  skip("if");//取一個if字
+  skip("(");//取一個(
   int e = E();
   irEmitIfNotGoto(e, ifBegin);
   skip(")");
